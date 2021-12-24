@@ -24,7 +24,7 @@ class Station
 
   # 4. Может возвращать список поездов на станции по типу грузовые, пассажирские
   def trains_by_type(type)
-    @trains # тут нужно будет дописать, вернёмся сюда после класса Train
+    @@trains.select { |train| train.type == type }
   end
 end
 
@@ -63,7 +63,7 @@ class Train
     @type = type
     @cars_count = cars_count
     @speed = 0
-    @route = nil
+    @route = route
     @current_station_index = nil
   end
 
@@ -94,7 +94,7 @@ class Train
 
   def assign_route(route)
     @route = route
-    @current_station_index = 1
+    @current_station_index = 0
   end
 
   #Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
@@ -122,19 +122,19 @@ class Train
   # Возвращать предыдущую станцию
 
   def previous_station
-    route.stations[current_station_index - 2].name if !first_station?
+    route.stations[current_station_index - 2] if !first_station?
   end
 
   # Возвращать текущую станцию
 
   def current_station
-    route.stations[current_station_index - 1].name
+    route.stations[current_station_index - 1]
   end
 
   # Возвращать следующую cтанцию на основе маршрута
 
   def next_station
-    route.stations[current_station_index].name if !last_station?
+    route.stations[current_station_index] if !last_station?
   end
 end
 
